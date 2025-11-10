@@ -1,0 +1,24 @@
+--cpu Cortex-M3
+"motor_encode\startup_stm32f103xe.o"
+"motor_encode\main.o"
+"motor_encode\stm32f1xx_it.o"
+"motor_encode\stm32f1xx_hal_msp.o"
+"motor_encode\stm32f1xx_hal_gpio_ex.o"
+"motor_encode\stm32f1xx_hal_tim.o"
+"motor_encode\stm32f1xx_hal_tim_ex.o"
+"motor_encode\stm32f1xx_hal.o"
+"motor_encode\stm32f1xx_hal_rcc.o"
+"motor_encode\stm32f1xx_hal_rcc_ex.o"
+"motor_encode\stm32f1xx_hal_gpio.o"
+"motor_encode\stm32f1xx_hal_dma.o"
+"motor_encode\stm32f1xx_hal_cortex.o"
+"motor_encode\stm32f1xx_hal_pwr.o"
+"motor_encode\stm32f1xx_hal_flash.o"
+"motor_encode\stm32f1xx_hal_flash_ex.o"
+"motor_encode\stm32f1xx_hal_exti.o"
+"motor_encode\stm32f1xx_hal_uart.o"
+"motor_encode\system_stm32f1xx.o"
+--strict --scatter "Motor_Encode\Motor_Encode.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "Motor_Encode.map" -o Motor_Encode\Motor_Encode.axf
