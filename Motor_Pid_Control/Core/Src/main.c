@@ -59,6 +59,8 @@ extern UART_HandleTypeDef huart1;
 extern TIM_HandleTypeDef htim2;
 extern Motor_TypeDef motor1;
 extern PID_Controller angle_pid;
+char serial_buffer[100];
+uint8_t vofa_enabled = 1;  // VOFA+数据发送开关
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -131,7 +133,7 @@ start_time = system_time; // 记录步进测试开始时间
 printf("Motor PID Control System Initialized.\r\n");
 printf("Target:30° step response in 300ms\r\n");
 printf("Encoder PPR:%d, Gear Ratio:%d,Total Pulses:%d\r\n",ENCODER_PPR,GEAR_RATIO,TOTAL_PULSES);
-printf("Commands:set kp/ki/kd <value>,pid show,pid reset\r\n");
+printf("Commands:set kp/ki/kd <value>,pid show,pid reset,help\r\n");
 printf("Initial PID: Kp=%.1f, Ki=%.1f, Kd=%.1f\r\n",angle_pid.Kp,angle_pid.Ki,angle_pid.Kd);
   /* USER CODE END 2 */
 
@@ -143,6 +145,10 @@ printf("Initial PID: Kp=%.1f, Ki=%.1f, Kd=%.1f\r\n",angle_pid.Kp,angle_pid.Ki,an
     current_angle = Encoder_GetAngle(); // 获取当前角度
     pid_output = PID_Calculate(target_angle, current_angle); // 计算PID输出
     Motor_SetSpeed((int16_t)pid_output); // 电机控制
+    if(vofa_enabled)
+    {
+      Vofa_SendData(target_angle, current_angle, pid_output);
+    }
     if(!step_test_done && (system_time - start_time >= 300))
     {
       float error = fabs(target_angle - current_angle);
@@ -410,6 +416,14 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
     }
     HAL_UART_Receive_IT(&huart1, (uint8_t *)&serial_buffer[buffer_index], 1); // 继续接收下一个字符
   }
+}
+
+void Vofa_SendData(float setpoint, float feedback, float output)
+{
+  float data[3] = {setpoint, feedback, output};
+  uint8_t tail[4] = {0x00, 0x00, 0x80, 0x7f};
+  HAL_UART_Transmit(&huart1,(uint8_t*)data,3*sizeof(float),HAL_MAX_DELAY); //发送数据
+  HAL_UART_Transmit(&huart1,tail,4,HAL_MAX_DELAY); //发送帧尾
 }
 
 /* USER CODE END 4 */

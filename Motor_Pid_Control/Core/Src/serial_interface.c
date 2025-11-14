@@ -9,6 +9,7 @@ extern float Encoder_GetAngle(void);
 extern void Encoder_ClearCount(void);
 extern void PID_Reset(void);
 extern void Motor_Stop(void);
+extern uint8_t vofa_enabled;
 
 void Process_Serial_Command(char* cmd)
 {
@@ -58,7 +59,16 @@ void Process_Serial_Command(char* cmd)
         printf("angle             - Read current angle\r\n");
         printf("zero              - Set current position as zero\r\n");
         printf("help              - Show this help\r\n");
+		}
+    else if (strcmp(cmd, "vofa on") == 0) {
+    vofa_enabled = 1;
+    printf("VOFA+ data streaming ENABLED\r\n");
     }
+    else if (strcmp(cmd, "vofa off") == 0) {
+    vofa_enabled = 0;
+    printf("VOFA+ data streaming DISABLED\r\n");
+    }
+    
     else {
         printf("Unknown command: %s\r\n", trimmed_cmd);
         printf("Type 'help' for available commands.\r\n");

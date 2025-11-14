@@ -5,6 +5,6 @@
 #include "pid_controller.h"
 
 void Process_Serial_Command(char* cmd);
-
+void Vofa_SendData(float setpoint, float feedback, float output);
 
 #endif // __SERIAL_INTERFACE_H
