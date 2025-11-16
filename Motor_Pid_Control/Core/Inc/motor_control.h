@@ -6,8 +6,8 @@
 typedef struct{
     TIM_HandleTypeDef *TIMx; // PWM定时器句柄
     uint32_t PWM_Channel;        // PWM通道
-    GPIO_TypeDef* DIR_Port;   // 方向控制GPIO端口
-    uint16_t DIR_Pin;            // 方向控制GPIO引脚
+    GPIO_TypeDef* DIR_Port_1, *DIR_Port_2;   // 方向控制GPIO端口
+    uint16_t DIR_Pin_1, DIR_Pin_2;            // 方向控制GPIO引脚
     int16_t current_speed; // 当前速度
     uint8_t direction;    // 方向：0-正转，1-反转
 } Motor_TypeDef;

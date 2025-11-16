@@ -1,14 +1,14 @@
 #include "pid_controller.h"
 
 PID_Controller angle_pid;
-
+extern int32_t encoder_overflow;
 void PID_Init(void)
 {
-    angle_pid.Kp = 15.0f;
-    angle_pid.Ki = 0.5f;
-    angle_pid.Kd = 0.1f;
-    angle_pid.output_max = 1000.0f;
-    angle_pid.output_min = -1000.0f;
+    angle_pid.Kp = 18.0f;
+    angle_pid.Ki = 0.1f;
+    angle_pid.Kd = 2.2f;
+    angle_pid.output_max = 250.0f;
+    angle_pid.output_min = -250.0f;
     angle_pid.integral_max = 1000.0f;
     PID_Reset();
 }
@@ -54,4 +54,6 @@ void PID_Reset(void)
     angle_pid.integral = 0.0f;
     angle_pid.prev_error = 0.0f;
     angle_pid.last_time = 0;
+    encoder_overflow = 0;
+
 }

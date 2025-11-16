@@ -2,7 +2,7 @@
 #include "main.h"
 
 extern TIM_HandleTypeDef htim3;
-static int32_t encoder_overflow = 0;
+int32_t encoder_overflow = 0;
 float Encoder_GetAngle(void)
 {
     int32_t total_count = Encoder_GetCount();
