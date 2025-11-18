@@ -56,7 +56,11 @@ M法在高速时精度高，T法则是低速时转速高
 ### PID术语和信号图
 被控对象：需要控制的对象，案例中指小球  
 目标值：期望被控对象达到的状态量，案例中指目标位置的坐标  
-反馈值：被控对象当前时刻的状态量，案例中指小球的实时位置坐标\n输出量：PID的计算结果，案例中指控制力\n误差：目标值-反馈值\n稳态  误差：系统稳定状态下仍存在的误差，如案例中加入干扰恒力后小球静止时仍存在的误差  阶跃输入：在稳定状态下目标值发生突然变化（上图目标值在0时刻由0跃升到虚线位置）  阶跃响应：阶跃输入后被控对象的跟随状态，能够代表系统的控制性能（上图彩色线条）  响应速度：阶跃输入后被控对象再次到达目标值的速度  超调量：阶跃输入后，被控对象到达目标值后超出目标值的距离（上图各彩色线条第一个峰值与目标值的距离）
+反馈值：被控对象当前时刻的状态量，案例中指小球的实时位置坐标\n输出量：PID的计算结果，案例中指控制力\n误差：目标值-反馈值  
+稳态误差：系统稳定状态下仍存在的误差，如案例中加入干扰恒力后小球静止时仍存在的误差  
+阶跃输入：在稳定状态下目标值发生突然变化（上图目标值在0时刻由0跃升到虚线位置）  
+阶跃响应：阶跃输入后被控对象的跟随状态，能够代表系统的控制性能（上图彩色线条）  
+响应速度：阶跃输入后被控对象再次到达目标值的速度  超调量：阶跃输入后，被控对象到达目标值后超出目标值的距离（上图各彩色线条第一个峰值与目标值的距离）
 ![Block_Diagram](image/Block_Diagram.jpg)
 ### 本人的完整代码实现
 ```c
@@ -97,8 +101,12 @@ float PID_Calculate(float setpoint,float feedback)
 }
 ```
 ## 主要参数与串口配置
-GPIO_PIN_A_1和GPIO_PIN_A_2实现方向控制（一高一低）  GPIO_PIN_A_0对应TIM2的PWM输出，用来控制电机转动  GPIO_PIN_A_9对应USART_RX，GPIO_PIN_A_10对应USART_TX，启动了USART1来进行串口调试（我懒得再去每次调试还要重新烧录程序了）  GPIO_PIN_B_4和GPIO_PIN_B_5用来读取encoder的值，使用了tim3来combine
+GPIO_PIN_A_1和GPIO_PIN_A_2实现方向控制（一高一低）  
+GPIO_PIN_A_0对应TIM2的PWM输出，用来控制电机转动 
+GPIO_PIN_A_9对应USART_RX，GPIO_PIN_A_10对应USART_TX，启动了USART1来进行串口调试（我懒得再去每次调试还要重新烧录程序了）  
+GPIO_PIN_B_4和GPIO_PIN_B_5用来读取encoder的值，使用了tim3来combine
 >注意：连接电机的TB6612通电前一定要检查和12v电压是否正确连接，方向没有反，否则可能有火灾风险 
-参考资料来源：[CSDN的PID控制原理](https://blog.csdn.net/skythinker616/article/details/123019829)  
+
+>参考资料来源：[CSDN的PID控制原理](https://blog.csdn.net/skythinker616/article/details/123019829)  
 [读取电机编码值](https://blog.csdn.net/da_xian_yu/article/details/119984955?sharetype=blog&shareId=119984955&sharerefer=APP&sharesource=2502_94084155&sharefrom=link)
 
